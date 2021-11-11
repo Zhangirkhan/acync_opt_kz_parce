@@ -1,5 +1,7 @@
 const xlsx = require('xlsx');
 const path = require('path');
+const fs = require("fs");
+
 
 const exportExcel = (data, workSheetColumnNames, workSheetName, filePath) => {
     const workBook = xlsx.utils.book_new();
@@ -15,6 +17,15 @@ const exportExcel = (data, workSheetColumnNames, workSheetName, filePath) => {
 const exportReestrsToExcel = (reestrs, workSheetColumnNames, workSheetName, filePath) => {
     const data = reestrs.map(reestr => {
         return [reestr.name, reestr.bin_iin, reestr.contacts, reestr.otrasl, reestr.kpved, reestr.production, reestr.nomer_sertificata, reestr.data_vidachi, reestr.sait];
+    });
+    //Создаем файл если файла нет
+    fs.exists(filePath, function(exists) {
+    if(exists) {
+        // Create a file
+    }
+    else {
+        console.log("Файл уже существует", filePath);
+    }
     });
     exportExcel(data, workSheetColumnNames, workSheetName, filePath);
 }
