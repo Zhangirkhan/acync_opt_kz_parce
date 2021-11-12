@@ -27,7 +27,7 @@ const workSheetColumnName = [
 
 // Async function which scrapes the data
 async function scrapeData(first, second)  {
-    const reestr = new Array();
+    const reestr = [];
     const url_first = "https://otp.kz/?page=";
     const workSheetName = 'otp.kz';
     const filePath = './outputFiles/export_'+first+'_'+second+'.xlsx';
@@ -37,7 +37,8 @@ async function scrapeData(first, second)  {
         // const pagesNumber = page('.pagination-link').text().slice(1);
 
         //Количество страниц на сайте
-        for (i = first; i <= second; i++) {
+        for (i = first; i <= second; i=i+1) {
+            // console.log(i);
             const url = url_first + i;
             const { data } = await axios.get(url);
             const $ = await cheerio.load(data);
@@ -74,16 +75,16 @@ async function scrapeData(first, second)  {
             console.log(url + " Обработан")
         }
         //Запись в базу данных
-        await exportReestrsToExcel(reestr, workSheetColumnName, workSheetName, filePath);
+        exportReestrsToExcel(reestr, workSheetColumnName, workSheetName, filePath);
 	} catch (err) {
 		console.error(err);
 	}
 }
 // scrapeData(501,502);
 //Создаем разные excel файлы для хранения. А то они станут очень большими
-scrapeData(1,500);
-scrapeData(501,1000);
-scrapeData(1001,1500);
-scrapeData(1501,2000);
-scrapeData(2001,2500);
-scrapeData(2500,2628);
+// scrapeData(1,500);
+// scrapeData(501,1000);
+// scrapeData(1001,1500);
+// scrapeData(1501,2000);
+// scrapeData(2001,2500);
+scrapeData(2500,2624);
